@@ -1,0 +1,23 @@
+name: PullRequest
+on:
+  push:
+    branches: 
+      - main
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+          registery-url: https://npm.pkg.github.com/
+      - name: installPackages
+        run: npm ci
+      - name: build
+        run: npm run build
+      - mame: compressProject
+        run: sudo apt-get install zip && zip -r build.zip build
+
